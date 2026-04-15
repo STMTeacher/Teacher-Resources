@@ -290,7 +290,7 @@
           <div class="tool-text">
             Launch your lesson starter with the learning question, task instructions, and visible timer.
           </div>
-          <a class="tool-link" href="do-now.html">Open Do Now</a>
+          <a class="tool-link" id="doNowLink" href="./do-now.html">Open Do Now</a>
         </div>
 
         <div class="tool-card">
@@ -299,7 +299,7 @@
           <div class="tool-text">
             Run a structured discussion with clear Think, Pair, and Share stages and a visual timer.
           </div>
-          <a class="tool-link" href="think-pair-share.html">Open Think–Pair–Share</a>
+          <a class="tool-link" id="tpsLink" href="./think-pair-share.html">Open Think–Pair–Share</a>
         </div>
 
         <div class="tool-card">
@@ -308,14 +308,46 @@
           <div class="tool-text">
             Finish the lesson with a quick reflection or confidence check using the exit ticket screen.
           </div>
-          <a class="tool-link" href="exit-ticket.html">Open Exit Ticket</a>
+          <a class="tool-link" id="exitTicketLink" href="./exit-ticket.html">Open Exit Ticket</a>
         </div>
       </div>
 
-      <div class="footer-note">
-        Put this file in the same folder as your classroom tool HTML files. If your file names are different, edit the three link targets in the code.
+      <div class="footer-note" id="footerNote">
+        Put this file in the same folder as your classroom tool HTML files.
       </div>
     </div>
   </div>
+
+  <script>
+    (function () {
+      const currentUrl = new URL(window.location.href);
+
+      // Work out the current folder reliably for local files and GitHub Pages.
+      let basePath = currentUrl.pathname;
+      if (!basePath.endsWith("/")) {
+        basePath = basePath.substring(0, basePath.lastIndexOf("/") + 1);
+      }
+
+      const makeLink = (fileName) => `${currentUrl.origin}${basePath}${fileName}`;
+
+      const links = [
+        { id: "doNowLink", file: "do-now.html" },
+        { id: "tpsLink", file: "think-pair-share.html" },
+        { id: "exitTicketLink", file: "exit-ticket.html" }
+      ];
+
+      links.forEach(({ id, file }) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.href = makeLink(file);
+        }
+      });
+
+      const footer = document.getElementById("footerNote");
+      if (footer) {
+        footer.textContent = `Current folder detected as: ${basePath}`;
+      }
+    })();
+  </script>
 </body>
 </html>
